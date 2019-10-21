@@ -1,9 +1,14 @@
 <template>
+    <!-- 最大容器 -->
     <div id="app">
+        <!-- 伸缩盒子布局 -->
         <el-row>
+            <!-- 左边导航栏 -->
             <el-col :span="4" style="background-color: #8378e5;color: #fff;">
                 <div class="grid-content bg-purple">
+                    <!-- logo -->
                     <h2 style="text-align: center;">{{title}}</h2>
+                    <!-- 菜单栏 -->
                     <ul style="float: left;width: 200px;font-size: 20px;padding-left: 30px;">
                         <li @click="currentPage = 'Product';num = '1'" :style="num == 1?style.clickLi:{}">
                             产品管理
@@ -32,15 +37,22 @@
                     </ul>
                 </div>
             </el-col>
+            <!-- 右边内容 -->
             <el-col :span="20">
                 <div class="grid-content bg-purple-light">
+                    <!-- 头部 -->
                     <div style="height: 60px;" id="crumbs">
+                        <!-- 面包屑导航 -->
                         <el-breadcrumb separator="/">
+                            <!-- 返回首页 -->
                             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+                            <!-- 子模块名 -->
                             <el-breadcrumb-item>{{arrTitle[num]}}</el-breadcrumb-item>
                         </el-breadcrumb>
                     </div>
+                    <!-- 内容 -->
                     <div style="padding: 30px;background-color: #eaecee91;">
+                        <!-- 子页面导入 -->
                         <component :is="currentPage"></component>
                     </div>
                 </div>
@@ -49,6 +61,7 @@
     </div>
 </template>
 <script>
+//绑定子模块地址
 import Sort from './pages/Sort' //栏目管理
 import Customer from './pages/Customer' //顾客管理
 import Address1 from './pages/Address1' //地址管理
@@ -56,14 +69,18 @@ import Attendant from './pages/Attendant' //服务员管理
 import Product from './pages/Product' //产品管理
 import Evaluate from './pages/Evaluate' //评价管理
 
-
+// 默认组件
 export default {
     name: 'app',
     data() {
         return {
+            // logo
             title: "二手交易系统",
+            // 引入的子模块
             currentPage: "Customer",
+            // 绑定子模块
             num: "4",
+            // 子模块面包屑
             arrTitle:[
               "标题",
               "产品管理",
@@ -73,13 +90,16 @@ export default {
               "服务员管理",
               "地址管理"
             ],
+
             style: {
+                // 点击菜单栏的样式
                 clickLi: {
                     "color": "#fff"
                 }
             }
         };
     },
+    // 子模块引用
     components: {
         Address1,
         Customer,
@@ -92,7 +112,9 @@ export default {
 
 }
 </script>
+<!-- 样式 -->
 <style>
+
 html,
 body,
 #app,
