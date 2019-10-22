@@ -47,7 +47,7 @@
         <!-- 操作按钮结束 -->
         <!-- 数据显示表格 -->
         {{categories}}
-        <el-table :data="categories" style="width: 100%">
+        <el-table :data="categories.list" style="width: 100%">
             <!-- 编号 -->
             <el-table-column prop="id" label="编号" width="180"></el-table-column>
             <!-- 姓名 -->
@@ -67,7 +67,12 @@
         </el-table>
         <!-- 数据显示表格结束 -->
         <!-- 分页 -->
-        <el-pagination small layout="prev, pager, next" :total="50">
+        <el-pagination small 
+        @current-change="pageChangeHandler" 
+        layout="prev, pager, next" 
+        :current-page="page+1" 
+        :page-size="categories.pageSize" 
+        :total="categories.total">
         </el-pagination>
         <!-- 分页结束 -->
     </div>
@@ -75,28 +80,34 @@
 </template>
 <script>
 //依赖模块
-import {post} from "../http/axios"//eport暴露成员用{}接收,其中就有get变量
+import { post } from "../http/axios" //eport暴露成员用{}接收,其中就有get变量
 
 
 // 默认组件
-export default { 
+export default {
     data() {
         return {
             title: "顾客管理",
             customers: [],
             input: "",
-            params:{
-                page:0,
-                pageSize:5
+            params: {
+                page: 0,
+                pageSize: 5
             },
-            categories:[]
+            categories: []
         }
     },
+    created() {
+        this.loadData();
+    },
     methods: {
-        async loadData(){
-            let response = await post("/customer/query",this.params);
+        pageChangeHandler(currentPage) {
+            this.params.page = currentPage - 1;
+            this.loadData();
+        },
+        async loadData() {
+            let response = await post("/customer/query", this.params);
             this.categories = response.data;
-            alert(1);
         },
         deleteHandler(id) {
             this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {

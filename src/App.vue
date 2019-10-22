@@ -9,7 +9,7 @@
                     <!-- logo -->
                     <h2 style="text-align: center;">{{title}}</h2>
                     <!-- 菜单栏 -->
-                    <ul style="float: left;width: 200px;font-size: 20px;padding-left: 30px;">
+                    <ul class="menu" style="float: left;width: 200px;font-size: 20px;padding-left: 30px;">
                         <li @click="currentPage = 'Product';num = '1'" :style="num == 1?style.clickLi:{}">
                             产品管理
                             <span v-show="num == 1">></span>
@@ -128,14 +128,16 @@ body,
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     color: #2c3e50;
 }
-
-#app>div>div ul {
+#app .el-breadcrumb{
+    padding-left: 30px;
+}
+#app>div>div ul.menu {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-#app>div>div ul>li {
+#app>div>div ul.menu>li {
     padding: 10px 0;
     color: #d3d3d3;
 }
