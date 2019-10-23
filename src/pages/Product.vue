@@ -147,7 +147,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+                <el-button type="primary" @click="submit">确 定</el-button>
             </div>
         </el-dialog>
         <!-- 模态框结束 -->
@@ -170,10 +170,10 @@ export default {
                 pageSize: 6,
                 namereal: ""
             },
-            produts: [],
+            produts:[],
             categorys:[],
             // record: "",
-            form: {}
+            form:{}
         }
     },
     created() {
@@ -184,6 +184,16 @@ export default {
         // 测试用
         lo() {
             alert(1);
+        },
+        //提交添加信息
+        async submit(){
+        	let response = await post("/product/saveOrUpdate",this.form);
+        	this.$message({
+        		type:"success",
+        		message:response.statusText
+        	})
+        	this.dialogVisible = false;
+        	this.loadData();
         },
         //添加信息
         toAdd() {
