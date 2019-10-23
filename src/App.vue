@@ -23,11 +23,11 @@
                             <span v-show="num == 3">></span>
                         </li>
                         <li @click="currentPage = 'Customer';num = '4'" :style="num==4?style.clickLi:{}">
-                            顾客管理
+                            用户管理
                             <span v-show="num == 4">></span>
                         </li>
                         <li @click="currentPage = 'Attendant';num = '5'" :style="num==5?style.clickLi:{}">
-                            服务员管理
+                            管理员管理
                             <span v-show="num == 5">></span>
                         </li>
                         <li @click="currentPage = 'Address1';num = '6'" :style="num==6?style.clickLi:{}">
@@ -39,7 +39,7 @@
             </el-col>
             <!-- 右边内容 -->
             <el-col :span="20">
-                <div class="grid-content bg-purple-light">
+                <div class="grid-content bg-purple-light" style="height: 80%;">
                     <!-- 头部 -->
                     <div style="height: 60px;" id="crumbs">
                         <!-- 面包屑导航 -->
@@ -51,7 +51,7 @@
                         </el-breadcrumb>
                     </div>
                     <!-- 内容 -->
-                    <div style="padding: 30px;background-color: #eaecee91;">
+                    <div style="height: 100%; padding: 30px;background-color: #eaecee91;">
                         <!-- 子页面导入 -->
                         <component :is="currentPage"></component>
                     </div>
@@ -63,9 +63,9 @@
 <script>
 //绑定子模块地址
 import Sort from './pages/Sort' //栏目管理
-import Customer from './pages/Customer' //顾客管理
+import Customer from './pages/Customer' //用户管理
 import Address1 from './pages/Address1' //地址管理
-import Attendant from './pages/Attendant' //服务员管理
+import Attendant from './pages/Attendant' //管理员管理
 import Product from './pages/Product' //产品管理
 import Evaluate from './pages/Evaluate' //评价管理
 
@@ -86,8 +86,8 @@ export default {
               "产品管理",
               "栏目管理",
               "评价管理",
-              "顾客管理",
-              "服务员管理",
+              "用户管理",
+              "管理员管理",
               "地址管理"
             ],
 

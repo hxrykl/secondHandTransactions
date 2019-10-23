@@ -16,7 +16,7 @@ axios.interceptors.response.use(function(response){
 	//返回一个数据结果对象
 	return response; 
 },function(error){
-
+  //返回一个状态为reject承诺对象
 	return Promise.reject(error);
 });
 
@@ -25,11 +25,16 @@ axios.interceptors.response.use(function(response){
 */
 export function post(url,data){
   return axios({
-    method:"post",
-    url,
+    //请求方式post
+    method:"post",  
+    //地址
+    url,   
+    //将对象 序列化成URL的形式，以&进行拼接
     data:qs.stringify(data),
+    // 如果请求花费了超过 `timeout` 的时间，请求将被中断
     timeout:10000,
-    headers: {
+    //即将被发送的自定义请求头
+    headers: { 
       'X-Requested-With': 'XMLHttpRequest',
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
     }

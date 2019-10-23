@@ -7,7 +7,7 @@
 	 export default {
 	 	data() {
             return {
-                title: "服务员管理"
+                title: "管理员管理"
             }
         }
 	 }
