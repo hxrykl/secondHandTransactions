@@ -1,17 +1,17 @@
 <style>
-    #customers .el-row button{
+    #customer .el-row button{
         float: right;
         margin:0px 15px 10px 0px;
         color: #fff;
     }
-    #customers .el-row button:hover{
+    #customer .el-row button:hover{
         background-color: #535bd0;
         border-color: #535bd0;
     }
-    #customers .el-form-item {
+    #customer .el-form-item {
         margin-bottom: 0px;
     }
-    #customers .el-form-item > div.el-form-item__content{
+    #customer .el-form-item > div.el-form-item__content{
         line-height: 32px;
     }
     
@@ -47,7 +47,7 @@
         </el-row>
         <!-- 操作按钮结束 -->
         <!-- 数据显示表格 -->
-        <el-table :data="categories.list" style="width: 100%;height: 384px;">
+        <el-table :data="customers.list" style="width: 100%;height: 384px;">
             <!-- 编号 -->
             <el-table-column prop="id" label="编号" width="180"></el-table-column>
             <!-- 姓名 -->
@@ -58,7 +58,8 @@
             <el-table-column prop="status" label="状态"> </el-table-column>
             <!-- 操作 -->
             <el-table-column label="操作">
-                <template v-slot:default="scope">
+                <!-- v-solt -->
+                <template v-solt:default="scope">
                     <a href="" @click.prevent="deleteHandler(scope.row.id)">删除</a>
                     <a href="" @click.prevent="deleteHandler(scope.row)">修改</a>
                 </template>
@@ -71,8 +72,8 @@
         @current-change="pageChangeHandler" 
         layout="prev, pager, next" 
         :current-page="params.page+1" 
-        :page-size="categories.pageSize" 
-        :total="categories.total">
+        :page-size="customers.pageSize" 
+        :total="customers.total">
         </el-pagination>
         <!-- 分页结束 -->
     </div>
@@ -88,13 +89,12 @@ export default {
     data() {
         return {
             title: "用户管理",
-            customers: [],
             params: {
                 page: 0,
                 pageSize: 7,
                 namereal: ""
             },
-            categories: []
+            customers: []
         }
     },
     created() {
@@ -110,7 +110,7 @@ export default {
         },
         async loadData() {
             let response = await post("/customer/query", this.params);
-            this.categories = response.data;
+            this.customers = response.data;
             console.log(this.params);
         },
         deleteHandler(id) {
