@@ -19,7 +19,7 @@
 
 <template>
     <!-- 用户管理模块 -->
-    <div id="customers">
+    <div id="customer">
         <!-- 操作按钮 -->
         <el-row>
             <!-- 搜索 -->

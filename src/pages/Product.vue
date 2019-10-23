@@ -14,6 +14,9 @@
     #product .el-form-item > div.el-form-item__content{
         line-height: 32px;
     }
+    #product .el-dialog .el-form .el-row{
+    	padding: 10px 0;
+    }
     
 </style>
 <template>
@@ -40,7 +43,7 @@
             <el-col :span="16">
                 <el-button size="small" type="primary">删除</el-button>
                 <el-button size="small" type="primary">全选</el-button>
-                <el-button size="small" type="primary">添加</el-button>
+                <el-button size="small" type="primary" @click="toAdd">添加</el-button>
             </el-col>
             <!-- 删除/添加/全选数据结束 -->
         </el-row>
@@ -77,17 +80,70 @@
         <!-- 分页结束 -->
         <!-- 模态框 -->
         <el-dialog title="添加产品信息" :visible.sync="dialogVisible">
+        	{{form}}
             <el-form :model="form">
-            	<!-- label-width为活动名称宽度 -->
-                <el-form-item label="活动名称" :label-width="formLabelWidth">
-                    <el-input v-model="form.name" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="活动区域" :label-width="formLabelWidth">
-                    <el-select v-model="form.region" placeholder="请选择活动区域">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
-                    </el-select>
-                </el-form-item>
+                <!-- 产品价格及名称 -->
+                <el-row :gutter="20">
+                    <el-col :span="12">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="产品名称" label-width="80px">
+                                <el-input v-model="form.name" autocomplete="off"></el-input>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                    <el-col :span="12">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="产品价格" label-width="80px">
+                                <el-input v-model="form.price" autocomplete="off"></el-input>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                </el-row>
+                <!-- 产品价格及名称结束 -->
+                <!-- 产品分类、产品状态、产品图 -->
+                <el-row :gutter="20">
+                	<!-- 产品分类 -->
+                    <el-col :span="8">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="产品分类" label-width="80px">
+                                <el-select v-model="form.categoryId" placeholder="请选择产品分类">
+                                    <el-option v-for ="c in categorys" :label="c.name" :value="c.id"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                    <!-- 产品状态 -->
+                    <el-col :span="8">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="产品状态" label-width="80px">
+                                <el-select v-model="form.status" placeholder="请选择产品状态">
+                                    <el-option label="已卖出" value="已卖出"></el-option>
+                                    <el-option label="待买" value="待买"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                    <!-- 产品图片 -->
+                    <el-col :span="8">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="产品图片" label-width="80px">
+                               <el-input v-model="form.photo" autocomplete="off"></el-input>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                </el-row>
+                <!-- 产品分类、产品状态、产品图结束 -->
+                <!-- 产品描述 -->
+                <el-row :gutter="20">
+                    <el-col :span="24">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="产品描述" label-width="80px">
+                                <el-input v-model="form.description" autocomplete="off"></el-input>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                </el-row>
+                <!-- 产品描述结束 -->
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -100,7 +156,7 @@
 </template>
 <script>
 //依赖模块
-import { post } from "../http/axios" //eport暴露成员用{}接收,其中就有get变量
+import { post,get } from "../http/axios" //eport暴露成员用{}接收,其中就有get变量
 
 
 // 默认组件
@@ -108,24 +164,30 @@ export default {
     data() {
         return {
             title: "产品管理",
-            dialogVisible:false,
+            dialogVisible: false,
             params: {
                 page: 0,
                 pageSize: 6,
                 namereal: ""
             },
             produts: [],
+            categorys:[],
             // record: "",
-            form:{}
+            form: {}
         }
     },
     created() {
         this.loadData();
+        this.loadCategotyData();
     },
     methods: {
         // 测试用
         lo() {
             alert(1);
+        },
+        //添加信息
+        toAdd() {
+            this.dialogVisible = true;
         },
         //看详情方法
         toDetail() {
@@ -136,11 +198,15 @@ export default {
             this.params.page = currentPage - 1;
             this.loadData();
         },
-        //获取分页数据方法
+        //获取产品分页数据方法
         async loadData() {
             let response = await post("/product/queryProductCascadeCategory", this.params);
             this.produts = response.data;
-            console.log(this.params);
+        },
+        //获取产品分类分页数据的方法
+        async loadCategotyData() {
+            let response = await get("/category/findAll");
+            this.categorys = response.data;
         },
         //
         deleteHandler(id) {
