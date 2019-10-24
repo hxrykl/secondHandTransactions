@@ -163,20 +163,27 @@ import { post,get } from "../http/axios" //eport暴露成员用{}接收,其中�
 export default {
     data() {
         return {
+        	//面包屑显示
             title: "产品管理",
+            //模态框设为关闭状态
             dialogVisible: false,
+            //分页请求的数据
             params: {
                 page: 0,
                 pageSize: 6,
                 namereal: ""
             },
+            //表格显示的数据
             produts:[],
+            //产品分类的数据
             categorys:[],
-            // record: "",
+            //提交添加产品信息的数据
             form:{}
         }
     },
+    //声明周期vue实例初始化完成，可以访问data及methods
     created() {
+    	//第一次加载产品，分页
         this.loadData();
         this.loadCategotyData();
     },
@@ -188,15 +195,19 @@ export default {
         //提交添加信息
         async submit(){
         	let response = await post("/product/saveOrUpdate",this.form);
+        	// 提示element信息&message
         	this.$message({
         		type:"success",
         		message:response.statusText
         	})
+        	//关闭模态框
         	this.dialogVisible = false;
+        	//刷新数据
         	this.loadData();
         },
         //添加信息
         toAdd() {
+        	//显示模态框
             this.dialogVisible = true;
         },
         //看详情方法
